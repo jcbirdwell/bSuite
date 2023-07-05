@@ -1,0 +1,6 @@
+venv
+.idea
+**.egg-info**
+**/dist
+old
+etc

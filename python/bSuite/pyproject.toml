@@ -1,0 +1,18 @@
+[project]
+name='bSuite'
+version='0.1.8'
+description='advanced helper modules. python edition'
+authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
+license = {text = "GPL-3"}
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+CRYPTO = ["cryptography"]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["bSuite_configure/src", "bSuite_database/src"]
+include = ["bSuite.*"]

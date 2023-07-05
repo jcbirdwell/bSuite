@@ -1,0 +1,14 @@
+[project]
+name='bSuiteConfigure'
+version='0.1.1'
+description='config parsing submodule of bSuite'
+authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
+license = {text = "GPL-3"}
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
