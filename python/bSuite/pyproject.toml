@@ -1,10 +1,16 @@
 [project]
-name='bSuite'
-version='0.1.8'
+name='bSuite-python'
+version='0.1.9'
 description='advanced helper modules. python edition'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
-license = {text = "GPL-3"}
+license = {file = "LICENSE"}
 requires-python = ">=3.11"
+keywords = ["helpers", "utilities", "database", "postgres", ".ini"]
+readme = {file = "README.md", content-type = "text/markdown"}
+classifiers = [
+    "Development Status :: 3 - Alpha"
+]
+
 
 [project.optional-dependencies]
 CRYPTO = ["cryptography"]
@@ -16,3 +22,6 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["bSuite_configure/src", "bSuite_database/src"]
 include = ["bSuite.*"]
+
+[project.urls]
+Repository = "https://github.com/jcbirdwell/bSuite"
