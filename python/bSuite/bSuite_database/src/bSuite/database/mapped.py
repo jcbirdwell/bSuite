@@ -43,19 +43,19 @@ class MappedDatabase(CoreDatabase, MutableMapping):
             # clear cached table names
             self._tables = None
 
-    def encode(self, v) -> bytes | str:
+    def dumps(self, v) -> bytes | str:
         if self._pickle:
             return pk.dumps(v)
         return json.dumps(v)
 
     @staticmethod
-    def parse(v) -> Any:
+    def loads(v) -> Any:
         if isinstance(v, memoryview):
             return pk.loads(v)
         return v
 
     def __setitem__(self, __k: Any, __v: Any) -> None:
-        self.insert(self.bound_table, {'var': __k, 'val': json.dumps(__v)}, upsert_on='var')
+        self.insert(self.bound_table, {'var': __k, self._vk: self.dumps(__v)}, upsert_on='var')
 
     def __delitem__(self, __v: Any) -> None:
         self.delete(self.bound_table, {'var': __v})
@@ -68,12 +68,12 @@ class MappedDatabase(CoreDatabase, MutableMapping):
             raise KeyError(f'{__k} not present.')
 
         # enable de-pickling via parse
-        return self.parse(resp[0])
+        return self.loads(resp[0])
 
     def __len__(self) -> int:
-        resp = self.select(self.bound_table, 'count(*)')
+        resp = self.select(self.bound_table, f'count({self._vk})')
         return resp[0] if resp else 0
 
     def __iter__(self) -> Generator:
-        for x in self.select(self.bound_table, 'var'):
+        for x in self.select(self.bound_table, 'var', where={self._vk: 'not null'}):
             yield x
