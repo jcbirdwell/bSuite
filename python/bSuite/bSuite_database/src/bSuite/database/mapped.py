@@ -12,14 +12,13 @@ class MappedDatabase(CoreDatabase, MutableMapping):
     """
     # TODO: add a mode selector pickle v json
     def __init__(self, cxn_config: dict, table: str, pickle=False):
-        super().__init__(cxn_config)
+        self.bound_table = table
         self._pickle = pickle
         if self._pickle:
             print('WARNING: Pickle mode is active. Not for use in production. Learn more about pickle '
                   'vulnerabilities here: https://docs.python.org/3/library/pickle.html')
         self._vk = 'val_p' if self._pickle else 'val'
-        self.bound_table = table
-        self.__post_init__()
+        super().__init__(cxn_config)
 
     def __repr__(self):
         return f'Mutable mapping interface bound to table "{self.bound_table}" of database "{self.db}".'
