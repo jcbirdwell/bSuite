@@ -99,9 +99,6 @@ class CoreDatabase:
                     cols = tuple(x[0] for x in csr.description)
                 # retrieve values
                 fetched = csr.fetchall()
-            elif 'select' in query:
-                # Save some sanity when debugging
-                print("Warning: You passed a select query but didn't request a response!")
 
         # cursor returned to pool before parsing, if required.
         if fetched:
