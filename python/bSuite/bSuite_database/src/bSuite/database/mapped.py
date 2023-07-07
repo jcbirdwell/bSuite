@@ -1,4 +1,5 @@
 import json
+import pickle as pk
 from typing import Any, Generator
 
 from .base import CoreDatabase
@@ -10,8 +11,13 @@ class MappedDatabase(CoreDatabase, MutableMapping):
     Interface that allows for a database table to be interacted with as if it were a dictionary object.
     """
     # TODO: add a mode selector pickle v json
-    def __init__(self, cxn_config, table):
+    def __init__(self, cxn_config: dict, table: str, pickle=False):
         super().__init__(cxn_config)
+        self._pickle = pickle
+        if self._pickle:
+            print('WARNING: Pickle mode is active. Not for use in production. Learn more about pickle '
+                  'vulnerabilities here: https://docs.python.org/3/library/pickle.html')
+        self._vk = 'val_p' if self._pickle else 'val'
         self.bound_table = table
         self.__post_init__()
 
@@ -27,6 +33,7 @@ class MappedDatabase(CoreDatabase, MutableMapping):
             create table {self.bound_table} (
                 var varchar(255) primary key,
                 val jsonb,
+                val_p bytea,
                 ts timestamp default current_timestamp
             );
             """
@@ -37,6 +44,17 @@ class MappedDatabase(CoreDatabase, MutableMapping):
             # clear cached table names
             self._tables = None
 
+    def encode(self, v) -> bytes | str:
+        if self._pickle:
+            return pk.dumps(v)
+        return json.dumps(v)
+
+    @staticmethod
+    def parse(v) -> Any:
+        if isinstance(v, memoryview):
+            return pk.loads(v)
+        return v
+
     def __setitem__(self, __k: Any, __v: Any) -> None:
         self.insert(self.bound_table, {'var': __k, 'val': json.dumps(__v)}, upsert_on='var')
 
@@ -44,10 +62,14 @@ class MappedDatabase(CoreDatabase, MutableMapping):
         self.delete(self.bound_table, {'var': __v})
 
     def __getitem__(self, __k: Any) -> Any:
-        resp = self.select(self.bound_table, 'val', where={'var': __k}, limit=1)
+        resp = self.select(self.bound_table, self._vk, where={'var': __k}, limit=1)
+
+        # throw missing
         if not resp:
             raise KeyError(f'{__k} not present.')
-        return resp[0]
+
+        # enable de-pickling via parse
+        return self.parse(resp[0])
 
     def __len__(self) -> int:
         resp = self.select(self.bound_table, 'count(*)')
