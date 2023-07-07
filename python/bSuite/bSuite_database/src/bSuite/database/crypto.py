@@ -1,4 +1,4 @@
-from base import CoreDatabase
+from .base import CoreDatabase
 from cryptography.fernet import Fernet
 from typing import Optional, Union
 from os import environ as env
