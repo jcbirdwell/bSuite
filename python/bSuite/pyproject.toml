@@ -1,6 +1,6 @@
 [project]
 name='bSuite-python'
-version='0.1.9'
+version='0.1.11'
 description='advanced helper modules. python edition'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 license = {file = "LICENSE"}
@@ -10,6 +10,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 classifiers = [
     "Development Status :: 3 - Alpha"
 ]
+dependencies = ["psycopg2-binary"]
 
 
 [project.optional-dependencies]
