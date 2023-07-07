@@ -1,6 +1,6 @@
 [project]
 name='bSuite-python'
-version='0.1.11'
+version='1.1.2'
 description='advanced helper modules. python edition'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 license = {file = "LICENSE"}
