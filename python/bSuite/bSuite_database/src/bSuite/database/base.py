@@ -4,6 +4,17 @@ from psycopg2.extensions import cursor
 from psycopg2.pool import ThreadedConnectionPool
 
 
+def get_comparator(v) -> str | tuple:
+    if isinstance(v, str):
+        if 'null' in v:
+            return ('is not', None) if 'not' in v else ('is', None)
+        return 'like'
+    elif isinstance(v, int):
+        return '='
+
+    return 'is'
+
+
 class CoreDatabase:
     """
     Base interface for postgres database, includes methods for
@@ -138,7 +149,10 @@ class CoreDatabase:
         else:
             conditions = []
             for k, v in where.items():
-                comparator = 'like' if isinstance(v, str) else 'is'
+                comparator = get_comparator(v)
+                if isinstance(comparator, tuple):
+                    comparator, v = comparator
+
                 conditions.append(f'{k} {comparator} %s')
                 passed_vars.append(v)
             where = f" where {' and '.join(conditions)}"
