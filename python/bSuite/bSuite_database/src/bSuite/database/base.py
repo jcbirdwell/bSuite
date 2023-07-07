@@ -17,6 +17,7 @@ class CoreDatabase:
         self._tables = None
         self.config = cxn_config
         self.pool = ThreadedConnectionPool(1, 5, **self.config)
+        self.__post_init__()
 
     def __post_init__(self):
         self.db = self.query('SELECT current_database()', as_tuple=True)[0]
