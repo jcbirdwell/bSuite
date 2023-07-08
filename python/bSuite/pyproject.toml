@@ -10,7 +10,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 classifiers = [
     "Development Status :: 3 - Alpha"
 ]
-dependencies = ["psycopg2-binary"]
+dependencies = ["psycopg2-binary", "tekore", "httpx", "browser_cookie3", "requests"]
 
 
 [project.optional-dependencies]

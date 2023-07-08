@@ -1,0 +1,15 @@
+[project]
+name='bSuite-spotify'
+version='0.0.1'
+description='spotify client submodule of bSuite'
+authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+dependencies = ["tekore", "bSuite-database", "httpx", "browser_cookie3", "requests"]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
