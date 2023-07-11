@@ -1,6 +1,6 @@
 [project]
 name='bSuite-spotify'
-version='0.0.1'
+version='0.2.1'
 description='spotify client submodule of bSuite'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 license = {file = "LICENSE"}
