@@ -5,7 +5,7 @@ description='spotify client submodule of bSuite'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 license = {file = "LICENSE"}
 requires-python = ">=3.11"
-dependencies = ["tekore", "bSuite-database", "httpx", "browser_cookie3", "requests"]
+dependencies = ["tekore", "httpx", "browser_cookie3", "requests"]
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
