@@ -1,6 +1,6 @@
 [project]
-name='bSuiteDatabaseTEST'
-version='0.1'
+name='bSuite-database'
+version='0.0.1'
 
 description='database submodule of bSuite'
 
@@ -8,7 +8,7 @@ authors = [
     {name = "John Birdwell", email = "j.c.birdwell@gmail.com"}
 ]
 
-license = {text = "GPL-3"}
+license = {file = "LICENSE"}
 dependencies = ["psycopg2-binary"]
 requires-python = ">=3.11"
 
@@ -21,4 +21,3 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["bSuite"]
