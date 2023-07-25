@@ -21,6 +21,44 @@ class HostileEnvironment(Exception):
 
 
 class AuthClient:
+    @classmethod
+    def from_env(cls,
+                 *void,
+                 client_id: Optional[str] = None,
+                 client_key: Optional[str] = None,
+                 redirect_uri: Optional[str] = None,
+                 allow_revalidation: Optional[bool] = False
+                 ):
+        """
+
+        Parameters
+        ----------
+        void : any
+            positional arguments not allowed.
+        client_id : str
+            optional client id override
+        client_key : str
+            optional api key override
+        redirect_uri : str
+            optional redirect overrides
+        allow_revalidation : bool
+            allow known keys to be revalidated instead of rebuilt
+
+        Returns
+        -------
+
+        """
+
+        req_envs = ["AUTH_API_KEY", "AUTH_CLIENT_ID", "AUTH_REDIRECT_URI"]
+        missing_envs = [x for x in req_envs if x not in env]
+        if missing_envs:
+            raise HostileEnvironment(f'Cannot build auth client from environment. Missing variables: {missing_envs}.')
+
+        client = client_id if client_id else env.get('AUTH_CLIENT_ID')
+        key = client_key if client_key else env.get('AUTH_API_KEY')
+        uri = redirect_uri if redirect_uri else env.get('AUTH_REDIRECT_URI')
+
+        return cls(client_id=client, client_key=key, redirect_uri=uri, allow_revalidation=allow_revalidation)
 
     def __init__(self, client_id: str, client_key: str, redirect_uri: str, allow_revalidation=False):
         self.id = client_id
