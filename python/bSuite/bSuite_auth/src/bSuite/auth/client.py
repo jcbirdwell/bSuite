@@ -49,14 +49,20 @@ class AuthClient:
 
         """
 
-        req_envs = ["AUTH_API_KEY", "AUTH_CLIENT_ID", "AUTH_REDIRECT_URI"]
-        missing_envs = [x for x in req_envs if x not in env]
-        if missing_envs:
-            raise HostileEnvironment(f'Cannot build auth client from environment. Missing variables: {missing_envs}.')
-
         client = client_id if client_id else env.get('AUTH_CLIENT_ID')
         key = client_key if client_key else env.get('AUTH_API_KEY')
         uri = redirect_uri if redirect_uri else env.get('AUTH_REDIRECT_URI')
+
+        missing_envs = []
+        if not client:
+            missing_envs.append('AUTH_CLIENT_ID')
+        if not key:
+            missing_envs.append('AUTH_API_KEY')
+        if not uri:
+            missing_envs.append('AUTH_REDIRECT_URI')
+
+        if missing_envs:
+            raise HostileEnvironment(f'Cannot build auth client from environment. Missing variables: {missing_envs}.')
 
         return cls(client_id=client, client_key=key, redirect_uri=uri, allow_revalidation=allow_revalidation)
 
