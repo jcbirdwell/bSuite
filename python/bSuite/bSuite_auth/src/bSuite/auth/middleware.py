@@ -33,7 +33,9 @@ class AuthMiddleware:
 
         path: str = scope.get('path')
         request = Request(scope=scope)
-        if path.startswith('/bAuth/callback'):
+
+        # catch authentication sdk endpoints
+        if path.startswith('/bsAuth/callback'):
             response: Response
             ref = request.cookies.get('bt_rf')
             pack = self.client.full_fetch(ref)
@@ -42,7 +44,7 @@ class AuthMiddleware:
             response = HTMLResponse(
                 '<!DOCTYPE html><html lang="en">'
                 '<head><meta charset="UTF-8"><title>Authorized</title></head>'
-                '<body>Good auth :)<script>window.close()</script></body>'
+                '<body>Good auth.<script>window.close()</script></body>'
                 '</html>')
             if self.client.sessions[ref]['user_id']:
                 response.set_cookie(key='user_id', value=self.client.sessions[ref]['user_id'], samesite='none',
@@ -52,20 +54,28 @@ class AuthMiddleware:
 
             await response(scope, receive, send)
 
-        elif path.startswith('/bAuth/login'):
+        elif path.startswith('/bsAuth/login'):
             pending = self.client.build_auth()
             self.client.sessions[pending['ref']] = {'pending': True, 'user_id': None}
             resp = Response(content=pending['url'], status_code=200)
             resp.set_cookie('bt_rf', pending['ref'], httponly=True, secure=True, samesite='none',
                             expires=2147483647)
             await resp(scope, receive, send)
-        elif path.startswith('/bAuth/logout'):
+
+        elif path.startswith('/bsAuth/logout'):
+            response = Response(content='Logged Out', status_code=200)
+
+            # auth server token invalidation when active cookie present
             if ref := request.cookies.get('bt_rf'):
                 self.client.invalidate_ref(ref)
-                response = Response(content='Logged Out', status_code=200)
                 response.delete_cookie('bt_rf')
+
+            # handle temp and complete failed logouts by clearing user
+            if 'user_id' in request.cookies:
                 response.delete_cookie('user_id')
-                await response(scope, receive, send)
+
+            await response(scope, receive, send)
+
         else:
             # Remove revoked tokens if present
             try:
