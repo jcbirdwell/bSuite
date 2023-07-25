@@ -1,0 +1,18 @@
+[project]
+name='bSuite-auth'
+version='0.0.1'
+
+description='authentication submodule of bSuite'
+authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
+
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+dependencies = ["fastapi", "requests", "starlette"]
+
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
