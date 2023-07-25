@@ -1,8 +1,8 @@
 [project]
-name='bSuite-auth'
-version='0.0.1'
+name = "bSuite-auth"
+version = "0.2.0"
 
-description='authentication submodule of bSuite'
+description = "authentication submodule of bSuite"
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 
 license = {file = "LICENSE"}
@@ -16,3 +16,19 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+
+[tool.bumpver]
+current_version = "0.2.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "version bumped {old_version} -> {new_version}"
+tag_message = "{new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"',
+]
