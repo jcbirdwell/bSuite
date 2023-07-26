@@ -1,6 +1,6 @@
 [project]
 name = "bSuite-auth"
-version = "0.4.0"
+version = "0.4.1"
 description = "authentication submodule of bSuite"
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 readme = {file = "README.md", content-type = "text/markdown"}
@@ -19,7 +19,7 @@ where = ["src"]
 
 
 [tool.bumpver]
-current_version = "0.4.0"
+current_version = "0.4.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "version bumped {old_version} -> {new_version}"
 tag_message = "{new_version}"
