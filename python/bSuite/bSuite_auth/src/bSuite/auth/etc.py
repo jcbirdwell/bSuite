@@ -10,13 +10,15 @@ AvailableEndpoints = Literal[
 
 
 class FailedAuth(Exception):
-    def __init__(self, *args):
-        super().__init__(self, *args)
+    """Authentication fetch failed"""
 
 
 class RevokedAuth(Exception):
-    def __init__(self, *args):
-        super().__init__(self, *args)
+    """Access to provided token was revoked"""
+
+
+class HostileEnvironment(Exception):
+    """Missing environmental keys"""
 
 
 class PreppedAuth(TypedDict):

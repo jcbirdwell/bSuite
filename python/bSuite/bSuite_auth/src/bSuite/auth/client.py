@@ -9,15 +9,10 @@ from fastapi import Request, Depends
 
 from cryptography.hazmat.primitives.asymmetric.padding import PSS, MGF1
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives import serialization as cereal
+from cryptography.hazmat.primitives import hashes, serialization as cereal
 from cryptography.exceptions import InvalidSignature
 
-from .etc import AvailableEndpoints, FailedAuth, PreppedAuth, RevokedAuth
-
-
-class HostileEnvironment(Exception):
-    """Missing environmental keys"""
+from .etc import AvailableEndpoints, FailedAuth, PreppedAuth, RevokedAuth, HostileEnvironment
 
 
 class AuthClient:

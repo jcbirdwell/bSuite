@@ -1,13 +1,13 @@
 [project]
 name = "bSuite-auth"
-version = "0.2.0"
-
+version = "0.4.0"
 description = "authentication submodule of bSuite"
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
-
+readme = {file = "README.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
+
 requires-python = ">=3.11"
-dependencies = ["fastapi", "requests", "starlette"]
+dependencies = ["fastapi", "requests", "starlette", "cryptography"]
 
 
 [build-system]
@@ -19,7 +19,7 @@ where = ["src"]
 
 
 [tool.bumpver]
-current_version = "0.2.0"
+current_version = "0.4.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "version bumped {old_version} -> {new_version}"
 tag_message = "{new_version}"
@@ -31,4 +31,7 @@ push = false
 "pyproject.toml" = [
     'current_version = "{version}"',
     'version = "{version}"',
+]
+"src/bSuite/auth/__init__.py" = [
+    '__version__ = "{version}"'
 ]

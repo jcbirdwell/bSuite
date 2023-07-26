@@ -8,9 +8,6 @@ from .client import AuthClient
 from .etc import RevokedAuth
 
 
-__all__ = ["AuthMiddleware"]
-
-
 # TODO: ADD base middleware super, implement for redirect jank
 class AuthMiddleware:
     def __init__(
