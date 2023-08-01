@@ -5,24 +5,47 @@ description='advanced helper modules. python edition'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 license = {file = "LICENSE"}
 requires-python = ">=3.11"
-keywords = ["helpers", "utilities", "database", "postgres", ".ini"]
+keywords = ["helpers", "utilities", "database", "postgres", ".ini", "authentication"]
 readme = {file = "README.md", content-type = "text/markdown"}
 classifiers = [
     "Development Status :: 3 - Alpha"
 ]
-dependencies = ["psycopg2-binary", "tekore", "httpx", "browser_cookie3", "requests"]
-
-
-[project.optional-dependencies]
-CRYPTO = ["cryptography"]
+dependencies = [
+    "psycopg2-binary",
+    "tekore",
+    "httpx",
+    "browser_cookie3",
+    "requests",
+    "fastapi",
+    "starlette",
+    "cryptography"
+]
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["bSuite_configure/src", "bSuite_database/src"]
+where = ["bSuite_configure/src", "bSuite_database/src", "bSuite_auth/src"]
 include = ["bSuite.*"]
 
 [project.urls]
 Repository = "https://github.com/jcbirdwell/bSuite"
+
+[tool.bumpver]
+current_version = "0.4.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "version bumped {old_version} -> {new_version}"
+tag_message = "{new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"',
+]
+"src/bSuite/auth/__init__.py" = [
+    '__version__ = "{version}"'
+]
