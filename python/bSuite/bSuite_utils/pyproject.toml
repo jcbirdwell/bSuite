@@ -1,0 +1,35 @@
+[project]
+name='bSuite-utils'
+version='0.1.1'
+
+description='misc utils submodule of bSuite'
+
+authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
+
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.bumpver]
+current_version = "0.1.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "version bumped {old_version} -> {new_version}"
+tag_message = "{new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"',
+]
+"src/bSuite/utils/__init__.py" = [
+    '__version__ = "{version}"'
+]

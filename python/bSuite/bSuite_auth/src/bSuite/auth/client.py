@@ -82,7 +82,10 @@ class AuthClient:
         else:
             if not (user := self.sessions.get(bt_rf)) and self.allow_revalidation and current_user:
                 pre_authed = self.full_fetch(bt_rf)
-                if current_user == pre_authed['azp']['user_id']:
+                if not pre_authed:
+                    # invalidate?
+                    user = None
+                elif current_user == pre_authed['azp']['user_id']:
                     user = self.sessions[bt_rf] = {'pending': False, 'revalidated': True, **pre_authed['azp']}
         return user
 
