@@ -1,8 +1,8 @@
 [project]
-name='bSuite-utils'
-version='0.1.1'
+name = "bSuite-utils"
+version = "1.0.0"
 
-description='misc utils submodule of bSuite'
+description="misc utils submodule of bSuite"
 
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 
@@ -18,7 +18,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.bumpver]
-current_version = "0.1.1"
+current_version = "1.0.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "version bumped {old_version} -> {new_version}"
 tag_message = "{new_version}"

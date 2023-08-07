@@ -1,4 +1,2 @@
-from strings import f_up
 
-__all__ = ['f_up']
-__version__ = "0.1.1"
+__version__ = "1.0.0"
