@@ -4,3 +4,4 @@ venv
 **/dist
 old
 etc
+**/last_dist
