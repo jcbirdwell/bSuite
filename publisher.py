@@ -65,9 +65,20 @@ def twine_upload():
     print(outputs)
 
 
-if __name__ == '__main__':
-    os.chdir('python/bSuite')
-    bumpver('patch')
+def dual_publish(module: str, level: BumpLevel, wrk_dir='.'):
+    if module not in ['python', 'auth', 'configure', 'database', 'spotify', 'utils']:
+        raise Exception('unknown module')
+
+    root = os.path.abspath(wrk_dir)
+    if module != 'python':
+        os.chdir(root + f'python/bSuite/bSuite_{module}')
+        bumpver(level)
+        builder()
+        twine_check()
+        twine_upload()
+
+    os.chdir(root + 'python/bSuite')
+    bumpver(level)
     builder()
     twine_check()
     twine_upload()
