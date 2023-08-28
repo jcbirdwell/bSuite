@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Generator
+from typing import Generator, Optional
 from psycopg2.extensions import cursor
 from psycopg2.pool import ThreadedConnectionPool
 from os import environ as env
@@ -23,7 +23,10 @@ class CoreDatabase:
     """
 
     @classmethod
-    def from_env(cls, etc: dict, verbose=False):
+    def from_env(cls,
+                 etc: Optional[dict] = None,
+                 verbose: Optional[bool] = False
+                 ):
         """
         Automatically pull basic connection parameters [host, port, database, user, and password]
         from the environmental variables (caps and prefixed with DB_ ex: DB_HOST) and return a database instance.
@@ -67,7 +70,7 @@ class CoreDatabase:
 
             cxn = cxn | etc
 
-        v_print(f'Finalized connection parameters: ', {cxn})
+        v_print(f'Finalized connection parameters: ', cxn)
 
         return cls(cxn)
 

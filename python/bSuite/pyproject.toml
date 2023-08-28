@@ -1,6 +1,6 @@
 [project]
 name = "bSuite-python"
-version = "2.0.0"
+version = "2.1.3"
 description='advanced helper modules. python edition'
 authors = [{name = "John Birdwell", email = "j.c.birdwell@gmail.com"}]
 license = {file = "LICENSE"}
@@ -33,7 +33,7 @@ include = ["bSuite.*"]
 Repository = "https://github.com/jcbirdwell/bSuite"
 
 [tool.bumpver]
-current_version = "2.0.0"
+current_version = "2.1.3"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "version bumped {old_version} -> {new_version}"
 tag_message = "{new_version}"
