@@ -2,6 +2,7 @@ from contextlib import contextmanager
 from typing import Generator
 from psycopg2.extensions import cursor
 from psycopg2.pool import ThreadedConnectionPool
+from os import environ as env
 
 
 def get_comparator(v) -> str | tuple:
@@ -20,6 +21,55 @@ class CoreDatabase:
     Base interface for postgres database, includes methods for
     querying, selection, insertion, and deletion
     """
+
+    @classmethod
+    def from_env(cls, etc: dict, verbose=False):
+        """
+        Automatically pull basic connection parameters [host, port, database, user, and password]
+        from the environmental variables (caps and prefixed with DB_ ex: DB_HOST) and return a database instance.
+        Can be provided with a dict of additional connection parameters which will override
+        values from the environment or be appended if not present.
+
+        Parameters
+        ----------
+        etc : dict
+            additional connection parameters used to override/add to environmental variables.
+        verbose : bool
+            provides variable parsing output
+        Returns
+        -------
+        CoreDatabase
+            A core database instance with connection parameters from the environment.
+        """
+
+        def v_print(*s):
+            if verbose:
+                print(*s)
+
+        v_print('Building database connection parameters from env...')
+        missing = [x for x in ['DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USER', 'DB_PASSWORD'] if x not in env]
+        v_print('env missing: ', missing, 'using default values for these fields.')
+
+        # build base connection parameters, filling where needed
+        cxn = {
+            'host': env.get('DB_HOST', 'localhost'),
+            'port': env.get('DB_PORT', 5432),
+            'database': env.get('DB_DATABASE', 'postgres'),
+            'user': env.get('DB_USER', 'postgres'),
+            'password': env.get('DB_PASSWORD', None)
+        }
+
+        # merge with overrides if needed
+        if etc:
+            v_print(f'received additional config. '
+                    f'adding: {[x for x in etc if x not in cxn]} '
+                    f'overwriting: {[x for x in etc if x in cxn]}')
+
+            cxn = cxn | etc
+
+        v_print(f'Finalized connection parameters: ', {cxn})
+
+        return cls(cxn)
 
     def __init__(self, cxn_config: dict):
         # parse connection parameters from ini file and merge
