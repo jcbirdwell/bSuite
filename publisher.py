@@ -71,13 +71,13 @@ def dual_publish(module: str, level: BumpLevel, wrk_dir='.'):
 
     root = os.path.abspath(wrk_dir)
     if module != 'python':
-        os.chdir(root + f'python/bSuite/bSuite_{module}')
+        os.chdir(root + f'/python/bSuite/bSuite_{module}')
         bumpver(level)
         builder()
         twine_check()
         twine_upload()
 
-    os.chdir(root + 'python/bSuite')
+    os.chdir(root + '/python/bSuite')
     bumpver(level)
     builder()
     twine_check()
