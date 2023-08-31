@@ -295,9 +295,9 @@ class CoreDatabase:
         conditions = []
         passed_vars = []
         for k, v in where.items():
-            comparator = 'like' if isinstance(v, str) else 'is'
+            comparator = get_comparator(v)
             conditions.append(f'{k} {comparator} %s')
             passed_vars.append(v)
         where_conditions = f"{' and '.join(conditions)}"
         q = f'delete from {table} where {where_conditions}'
-        self.query(q, vals=tuple(passed_vars))
+        self.query(q, vals=tuple(passed_vars), no_resp=True)
