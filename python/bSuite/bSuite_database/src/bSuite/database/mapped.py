@@ -58,7 +58,7 @@ class MappedDatabase(CoreDatabase, MutableMapping):
         self.insert(self.bound_table, {'var': __k, self._vk: self.dumps(__v)}, upsert_on='var')
 
     def __delitem__(self, __v: Any) -> None:
-        self.delete(self.bound_table, {'var': __v})
+        self.delete(self.bound_table, {self._vk: self.dumps(__v)})
 
     def __getitem__(self, __k: Any) -> Any:
         resp = self.select(self.bound_table, self._vk, where={'var': __k}, limit=1)
