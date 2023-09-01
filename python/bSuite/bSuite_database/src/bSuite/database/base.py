@@ -311,11 +311,38 @@ class CoreDatabase:
         self.query(q, vs, no_resp=True)
 
     def delete(self, table: str, where: dict):
+        """
+        Removes item(s) from the specified table.
 
+        Parameters
+        ----------
+        table : str
+            table to execute deletion on
+        where : dict[str, str] | dict[str, tuple[str, str]]
+            dictionary of key value pairs to match for deletion, comparator is
+            automatically chosen based on data type, but can also be forced by
+            replacing the value with a tuple containing the comparator and value.
+
+        Examples
+        --------
+        `standard call` : delete(table='foo', where={'bar': 6})
+             ==sql=> delete from foo where bar = 6;
+        `multiple where` : delete(table='foo', where={'bar': 8, 'buzz': 'yellow'})
+            ==sql=> delete from foo where bar = 8 and buzz like yellow;
+        `forcing comparator` : delete(table='foo', where={'bar': 8, 'buzz': ('=', 'yellow')})
+         ==sql=> delete from foo where bar = 8 and buzz = yellow;
+
+        """
         conditions = []
         passed_vars = []
         for k, v in where.items():
-            comparator = get_comparator(v)
+            if isinstance(v, tuple):
+                if len(v) != 2:
+                    raise Exception('comparator forcing must be formatted as (comparator, value)')
+                else:
+                    comparator, v = v
+            else:
+                comparator = get_comparator(v)
             conditions.append(f'{k} {comparator} %s')
             passed_vars.append(v)
         where_conditions = f"{' and '.join(conditions)}"
