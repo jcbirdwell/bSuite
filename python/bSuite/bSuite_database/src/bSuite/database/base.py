@@ -22,10 +22,21 @@ class CoreDatabase:
     querying, selection, insertion, and deletion
     """
 
+    @staticmethod
+    def cxn_params_from_env():
+        return {
+            'host': env.get('DB_HOST', 'localhost'),
+            'port': env.get('DB_PORT', 5432),
+            'database': env.get('DB_DATABASE', 'postgres'),
+            'user': env.get('DB_USER', 'postgres'),
+            'password': env.get('DB_PASSWORD', None)
+        }
+
     @classmethod
     def from_env(cls,
                  etc: Optional[dict] = None,
-                 verbose: Optional[bool] = False
+                 verbose: Optional[bool] = False,
+                 **kwargs
                  ):
         """
         Automatically pull basic connection parameters [host, port, database, user, and password]
@@ -72,9 +83,18 @@ class CoreDatabase:
 
         v_print(f'Finalized connection parameters: ', cxn)
 
-        return cls(cxn)
+        return cls(cxn, **kwargs)
 
-    def __init__(self, cxn_config: dict):
+    def __init__(self, cxn_config: dict, **kwargs):
+        """
+
+        Parameters
+        ----------
+        cxn_config : dict
+            connection parameters fed to Psycopg connection init (ie host, port, user, password, db, etc)
+        kwargs : any
+            keyword argument added for super classing support for class methods
+        """
         # parse connection parameters from ini file and merge
         # with overrides if provided
         self.db = None

@@ -1,6 +1,6 @@
 [project]
 name='bSuite-database'
-version = "0.1.8"
+version = "0.2.0"
 
 description='database submodule of bSuite'
 readme = {file = "README.md", content-type = "text/markdown"}
@@ -24,7 +24,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.bumpver]
-current_version = "0.1.8"
+current_version = "0.2.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "version bumped {old_version} -> {new_version}"
 tag_message = "{new_version}"
